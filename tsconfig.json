@@ -1,0 +1,15 @@
+{
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "*.ts"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "composite": true,
+    "esModuleInterop": true,
+    "module": "ESNext",
+    "types": ["node", "reflect-metadata"],
+  },
+  "ts-node": {
+    "esm": true,
+    "files": true,
+    "experimentalSpecifierResolution": "node"
+  }
+}

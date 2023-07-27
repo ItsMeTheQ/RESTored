@@ -1,0 +1,20 @@
+{
+  "name": "revuestore",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "module": "ESNext",
+  "target": "es2016",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon",
+    "build": "ts-node"
+  },
+  "devDependencies": {
+    "reflect-metadata": "^0.1.13",
+    "ts-node": "^10.9.1",
+    "ts-patch": "^3.0.1",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.1.6"
+  }
+}
