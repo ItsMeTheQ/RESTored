@@ -21,6 +21,7 @@ export default abstract class BaseTransformer<T> implements ITransformer<T> {
     setDefault(value: T): BaseTransformer<T> {
         this.default = value
         this.setValue(value)
+        this.setOldValue()
         return this
     }
 
