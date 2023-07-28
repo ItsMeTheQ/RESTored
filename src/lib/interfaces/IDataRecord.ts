@@ -12,7 +12,7 @@ export default interface IDataRecord {
     recordType() : string
     url(options: IRequestOptions) : string
 
-    unlink() : IDataRecord
+    unlink() : void
     link() : void
     revert() : void
 

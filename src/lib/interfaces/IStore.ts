@@ -19,7 +19,7 @@ export default interface IStore {
     get(options: IRequestOptions): IDataRecord[];
 
     link(options: IRequestOptions): void
-    unlink(record: IDataRecord): IDataRecord
+    unlink(record: IDataRecord): void
 
     find(options: IRequestOptions): Promise<Response>;
     findAll(options: IRequestOptions): Promise<Response>;

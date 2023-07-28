@@ -82,16 +82,21 @@ export default class Store implements IStore {
         this.records.link(options)
     }
 
-    unlink(record: IDataRecord): IDataRecord {
-        const elements: IDataRecord[] = this.records.getAllElements(record).filter((element: IDataRecord) => {
+    unlink(record: IDataRecord): void {
+        const allRecords: IDataRecord[] = this.records.getAllElements(record)
+        const elements: IDataRecord[] = allRecords.filter((element: IDataRecord) => {
             return element.getUuid() === record.getUuid()
+        })
+        const index: number = allRecords.findIndex((element: IDataRecord) => {
+          return element.getUuid() === record.getUuid()
         })
         if (elements.length === 0) {
             throw new DataRecordNotLinkedError(record)
         }
         const output: IDataRecord = this.new.record(record.recordType())
         output.deserialize(record.serialize())
-        return output
+        output.setIsNew(false)
+        allRecords.splice(index, 1, output)
     }
 
     private async request(options: IRequestOptions): Promise<Response> {
