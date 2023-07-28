@@ -83,6 +83,12 @@ export default abstract class DataRecord implements IDataRecord {
         this.store.unlink(this)
     }
 
+    addToStoreMapping(options: IRequestOptions, position: number): void {
+        this.link()
+        options.setRecord(this)
+        this.store.records.addToStoreMapping(options, position)
+    }
+
     revert(): void {
         const properties = this.getOwnDataFields()
         for (let property of properties) {

@@ -145,6 +145,7 @@ export default class Store implements IStore {
         record.deserialize(dataset)
         record.setIsNew(false)
         this.records.set(options)
+        record.link()
         return response
     }
 

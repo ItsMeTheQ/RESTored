@@ -13,7 +13,7 @@ export default class DataStore implements IDataStore {
 
     get(options: IRequestOptions): IDataRecord[] {
         const mapElement: DataStoreMapElement = this.data.get(options.record.recordType())
-        if(!mapElement) {
+        if (!mapElement) {
             throw new DataRecordNotRegistered(options.record)
         }
         return this.data.get(options.record.recordType()).get(options) as IDataRecord[];
@@ -47,5 +47,20 @@ export default class DataStore implements IDataStore {
 
     getAllElements(record: IDataRecord): IDataRecord[] {
         return this.data.get(record.recordType()).list
+    }
+
+    addToStoreMapping(options: IRequestOptions, position: number): void {
+        if (position <= 0) {
+            position = 0
+        }
+        const maxLength: number = this.data.get(options.record.recordType()).map.get(options.getUrl()).length - 1
+        if (position >= maxLength) {
+            position = maxLength
+        }
+        this.data.get(
+            options.record.recordType()
+        ).map.get(
+            options.getUrl()
+        ).splice(position, 0, options.record.getPrimary())
     }
 }

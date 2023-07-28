@@ -11,4 +11,6 @@ export default interface IDataStore {
 
     link(options: IRequestOptions): void;
     getAllElements(record: IDataRecord): IDataRecord[];
+
+    addToStoreMapping(options: IRequestOptions, position: number): void;
 }

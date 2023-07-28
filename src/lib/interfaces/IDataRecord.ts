@@ -26,4 +26,6 @@ export default interface IDataRecord {
     delete(options: IRequestOptions): Promise<Response>;
 
     save(options: IRequestOptions): Promise<Response>;
+
+    addToStoreMapping(options: IRequestOptions, position: number): void;
 }
