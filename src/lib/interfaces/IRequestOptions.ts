@@ -5,7 +5,7 @@ export default interface IRequestOptions {
     record: IDataRecord;
     queries: Map<string, string>;
     params: Map<string, string>;
-    headers: HeadersInit;
+    headers: Headers;
 
     setRequestMethod(method: RequestMethods): IRequestOptions;
     getRequestMethod(): RequestMethods;
@@ -24,7 +24,7 @@ export default interface IRequestOptions {
     getParams(): Map<string, string>;
     getParam(key: string): string;
 
-    getHeaders(): HeadersInit;
+    getHeaders(): Headers;
     getHeader(key: string): string;
 
     getRecordType(): string;

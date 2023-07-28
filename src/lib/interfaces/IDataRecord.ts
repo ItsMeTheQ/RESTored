@@ -4,6 +4,8 @@ import IStore from "./IStore";
 export default interface IDataRecord {
     store: IStore
     hasChanged: boolean
+    getIsNew(): boolean
+    setIsNew(isNew: boolean): void
     getUuid(): number
 
     getPrimary() : string

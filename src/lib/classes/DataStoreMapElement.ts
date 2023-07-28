@@ -2,8 +2,8 @@ import IDataRecord from "../interfaces/IDataRecord";
 import IRequestOptions from "../interfaces/IRequestOptions";
 
 export default class DataStoreMapElement {
-    map: Map<string, string[]>;
-    list: IDataRecord[];
+    map: Map<string, string[]> = new Map<string, string[]>()
+    list: IDataRecord[] = [];
 
     private has(options: IRequestOptions): boolean {
         return this.map.has(options.getUrl());
@@ -59,6 +59,7 @@ export default class DataStoreMapElement {
         } else {
             this.map.set(options.getUrl(), [record.getPrimary()]);
         }
+        this.link(record)
     }
 
     setAll(options: IRequestOptions, records: IDataRecord[]): void {

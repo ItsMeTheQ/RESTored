@@ -5,9 +5,9 @@ import {RequestMethods} from "./Store";
 export default class RequestOptions implements IRequestOptions {
     record: IDataRecord;
 
-    headers: HeadersInit = new Headers();
+    headers: Headers = new Headers();
     params: Map<string, string> = new Map<string, string>();
-    queries: Map<string, string>;
+    queries: Map<string, string> = new Map<string, string>();
 
     private method: RequestMethods = RequestMethods.GET;
     private multiple: boolean = true;
@@ -36,7 +36,7 @@ export default class RequestOptions implements IRequestOptions {
     }
 
     addHeader(key: string, value: string): IRequestOptions {
-        this.headers[key] = value
+        this.headers.set(key, value)
         return this
     }
 
@@ -50,7 +50,7 @@ export default class RequestOptions implements IRequestOptions {
         return this
     }
 
-    getHeaders(): HeadersInit {
+    getHeaders(): Headers {
         return this.headers
     }
 

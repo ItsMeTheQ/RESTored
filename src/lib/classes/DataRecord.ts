@@ -16,7 +16,17 @@ export default abstract class DataRecord implements IDataRecord {
         return this.uuId;
     }
 
+    public getIsNew(): boolean {
+        return this.isNew;
+    }
+
+    public setIsNew(isNew: boolean): void {
+        this.isNew = isNew;
+    }
+
     public store: IStore
+
+    private isNew: boolean = true
 
     recordType() {
         return 'basic';
@@ -94,26 +104,26 @@ export default abstract class DataRecord implements IDataRecord {
         options = this.fillOptionsParameters(options)
             .setRequestMethod(RequestMethods.POST)
             .setMultiple(false)
-        return this.store.create(options);
+        return await this.store.create(options);
     }
 
     async update(options?: IRequestOptions): Promise<Response> {
         options = this.fillOptionsParameters(options)
             .setRequestMethod(RequestMethods.PUT)
             .setMultiple(false)
-        return this.store.update(options);
+        return await this.store.update(options);
     }
 
     async delete(options?: IRequestOptions): Promise<Response> {
         options = this.fillOptionsParameters(options)
             .setRequestMethod(RequestMethods.DELETE)
             .setMultiple(false)
-        return this.store.delete(options);
+        return await this.store.delete(options);
     }
 
     async save(options?: IRequestOptions): Promise<Response> {
         options = this.fillOptionsParameters(options)
-        if (this.hasChanged) {
+        if (this.hasChanged && !this.getIsNew()) {
             return await this.update(options)
         }
         return await this.create(options)
