@@ -19,15 +19,15 @@ export default class DataStore implements IDataStore {
         return this.data.get(options.record.recordType()).get(options) as IDataRecord[];
     }
 
-    remove(options: IRequestOptions, record: IDataRecord): void {
+    remove(options: IRequestOptions): void {
         if (this.data.has(options.record.recordType())) {
-            this.data.get(options.record.recordType()).remove(options, record)
+            this.data.get(options.record.recordType()).remove(options)
         }
     }
 
-    set(options: IRequestOptions, record: IDataRecord): void {
+    set(options: IRequestOptions): void {
         if (this.data.has(options.record.recordType())) {
-            this.data.get(options.record.recordType()).set(options, record)
+            this.data.get(options.record.recordType()).set(options)
         }
     }
 
@@ -41,8 +41,8 @@ export default class DataStore implements IDataStore {
         this.data.set(name, new DataStoreMapElement())
     }
 
-    link(record: IDataRecord): void {
-        this.data.get(record.recordType()).link(record)
+    link(options: IRequestOptions): void {
+        this.data.get(options.record.recordType()).link(options)
     }
 
     getAllElements(record: IDataRecord): IDataRecord[] {

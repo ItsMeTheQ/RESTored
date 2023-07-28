@@ -31,19 +31,19 @@ export default class DataStoreMapElement {
         return [];
     }
 
-    remove(options: IRequestOptions, record: IDataRecord): void {
+    remove(options: IRequestOptions): void {
         if (this.has(options)) {
             for (let key in this.map.keys()) {
-                while (this.map.get(key).includes(record.getPrimary())) {
+                while (this.map.get(key).includes(options.record.getPrimary())) {
                     this.map.get(key).splice(
                         this.map.get(key).indexOf(
-                            record.getPrimary()
+                            options.record.getPrimary()
                         ), 1);
                 }
             }
             let index: number = -1;
             while (true) {
-                index = this.findRecordIndex(record)
+                index = this.findRecordIndex(options.record)
                 if (index === -1) {
                     break
                 }
@@ -53,13 +53,13 @@ export default class DataStoreMapElement {
         }
     }
 
-    set(options: IRequestOptions, record: IDataRecord): void {
+    set(options: IRequestOptions): void {
         if (this.has(options)) {
-            this.map.get(options.getUrl()).push(record.getPrimary());
+            this.map.get(options.getUrl()).push(options.record.getPrimary());
         } else {
-            this.map.set(options.getUrl(), [record.getPrimary()]);
+            this.map.set(options.getUrl(), [options.record.getPrimary()]);
         }
-        this.link(record)
+        this.link(options)
     }
 
     setAll(options: IRequestOptions, records: IDataRecord[]): void {
@@ -67,16 +67,17 @@ export default class DataStoreMapElement {
             this.map.set(options.getUrl(), []);
         }
         records.forEach((record: IDataRecord) => {
-            this.set(options, record);
+            options.record = record
+            this.set(options);
         })
     }
 
-    link(record: IDataRecord): void {
-        let index: number = this.findRecordIndex(record)
+    link(options: IRequestOptions): void {
+        let index: number = this.findRecordIndex(options.record)
         if (index === -1) {
-            this.list.push(record)
+            this.list.push(options.record)
         } else {
-            this.list[index] = record
+            this.list.splice(index, 1, options.record)
         }
     }
 }

@@ -3,12 +3,12 @@ import IDataRecord from "../interfaces/IDataRecord";
 
 export default interface IDataStore {
     get(options: IRequestOptions): IDataRecord[];
-    set(options: IRequestOptions, record: IDataRecord): void;
+    set(options: IRequestOptions): void;
     setAll(options: IRequestOptions, records: IDataRecord[]): void;
-    remove(options: IRequestOptions, record: IDataRecord): void;
+    remove(options: IRequestOptions): void;
 
     register(name: string): void;
 
-    link(record: IDataRecord): void;
+    link(options: IRequestOptions): void;
     getAllElements(record: IDataRecord): IDataRecord[];
 }

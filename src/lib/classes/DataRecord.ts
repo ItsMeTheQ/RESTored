@@ -76,7 +76,7 @@ export default abstract class DataRecord implements IDataRecord {
     }
 
     link(): void {
-        this.store.link(this)
+        this.store.link(this.store.new.request(this.recordType()).setRecord(this))
     }
 
     unlink(): IDataRecord {

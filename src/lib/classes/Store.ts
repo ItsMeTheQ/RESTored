@@ -75,11 +75,11 @@ export default class Store implements IStore {
         return records.length > 0 ? records[0] : undefined
     }
 
-    link(record: IDataRecord): void {
-        if (record.getPrimary() === '') {
-            throw new NoPrimaryError(record)
+    link(options: IRequestOptions): void {
+        if (options.record.getPrimary() === '') {
+            throw new NoPrimaryError(options.record)
         }
-        this.records.link(record)
+        this.records.link(options)
     }
 
     unlink(record: IDataRecord): IDataRecord {
@@ -113,7 +113,7 @@ export default class Store implements IStore {
         const record: IDataRecord = this.new.record(options.record.recordType())
         record.deserialize(dataset)
         record.setIsNew(false)
-        this.records.set(options, record)
+        this.records.set(options)
         return response
     }
 
@@ -139,7 +139,7 @@ export default class Store implements IStore {
         const record: IDataRecord = options.record
         record.deserialize(dataset)
         record.setIsNew(false)
-        this.records.set(options, record)
+        this.records.set(options)
         return response
     }
 
@@ -153,11 +153,10 @@ export default class Store implements IStore {
         return response
     }
 
-
     async delete(options: IRequestOptions): Promise<Response> {
         options.setMultiple(false).setRequestMethod(RequestMethods.DELETE)
         const response: Response = await this.request(options);
-        this.records.remove(options, options.record)
+        this.records.remove(options)
         return response
     }
 }
