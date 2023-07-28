@@ -1,16 +1,16 @@
-import IRequestOptions from "../interfaces/IRequestOptions";
-import IDataRecord from "../interfaces/IDataRecord";
-import {RequestMethods} from "./Store";
+import IRequestOptions from "../interfaces/IRequestOptions"
+import IDataRecord from "../interfaces/IDataRecord"
+import {RequestMethods} from "./Store"
 
 export default class RequestOptions implements IRequestOptions {
-    record: IDataRecord;
+    record: IDataRecord
 
-    headers: Headers = new Headers();
-    params: Map<string, string> = new Map<string, string>();
-    queries: Map<string, string> = new Map<string, string>();
+    headers: Headers = new Headers()
+    params: Map<string, string> = new Map<string, string>()
+    queries: Map<string, string> = new Map<string, string>()
 
-    private method: RequestMethods = RequestMethods.GET;
-    private multiple: boolean = true;
+    private method: RequestMethods = RequestMethods.GET
+    private multiple: boolean = true
 
     setRequestMethod(method: RequestMethods): IRequestOptions {
         this.method = method
@@ -67,15 +67,15 @@ export default class RequestOptions implements IRequestOptions {
     }
 
     getQueries(): Map<string, string> {
-        return this.queries;
+        return this.queries
     }
 
     getQuery(key: string): string {
-        return this.queries.get(key);
+        return this.queries.get(key)
     }
 
     getRecordType(): string {
-        return this.record.recordType();
+        return this.record.recordType()
     }
 
     private getQueryParams(): string {
@@ -87,7 +87,7 @@ export default class RequestOptions implements IRequestOptions {
     }
 
     getUrl(): string {
-        return this.getMultiple() ? `${this.record.url(this)}` : `${this.record.url(this)}/${this.record.getPrimary()}`;
+        return this.getMultiple() ? `${this.record.url(this)}` : `${this.record.url(this)}/${this.record.getPrimary()}`
     }
 
     getUrlWithParams(): string {
@@ -95,7 +95,7 @@ export default class RequestOptions implements IRequestOptions {
     }
 
     getPrimary(): string {
-        return this.record.getPrimary();
+        return this.record.getPrimary()
     }
 
 }

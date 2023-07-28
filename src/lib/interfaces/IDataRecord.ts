@@ -1,5 +1,5 @@
-import IRequestOptions from "../interfaces/IRequestOptions";
-import IStore from "./IStore";
+import IRequestOptions from "../interfaces/IRequestOptions"
+import IStore from "./IStore"
 
 export default interface IDataRecord {
     store: IStore
@@ -16,16 +16,16 @@ export default interface IDataRecord {
     link() : void
     revert() : void
 
-    serialize(): { [key: string]: unknown};
-    deserialize(data: { [key: string]: unknown}): void;
+    serialize(): { [key: string]: unknown}
+    deserialize(data: { [key: string]: unknown}): void
 
     toString() : string
 
-    create(options: IRequestOptions): Promise<Response>;
-    update(options: IRequestOptions): Promise<Response>;
-    delete(options: IRequestOptions): Promise<Response>;
+    create(options: IRequestOptions): Promise<Response>
+    update(options: IRequestOptions): Promise<Response>
+    delete(options: IRequestOptions): Promise<Response>
 
-    save(options: IRequestOptions): Promise<Response>;
+    save(options: IRequestOptions): Promise<Response>
 
-    addToStoreMapping(options: IRequestOptions, position: number): void;
+    addToStoreMapping(options: IRequestOptions, position: number): void
 }

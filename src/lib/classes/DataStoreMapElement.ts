@@ -1,12 +1,12 @@
-import IDataRecord from "../interfaces/IDataRecord";
-import IRequestOptions from "../interfaces/IRequestOptions";
+import IDataRecord from "../interfaces/IDataRecord"
+import IRequestOptions from "../interfaces/IRequestOptions"
 
 export default class DataStoreMapElement {
     map: Map<string, string[]> = new Map<string, string[]>()
-    list: IDataRecord[] = [];
+    list: IDataRecord[] = []
 
     private has(options: IRequestOptions): boolean {
-        return this.map.has(options.getUrl());
+        return this.map.has(options.getUrl())
     }
 
     private findRecordIndex(record: IDataRecord): number {
@@ -17,7 +17,7 @@ export default class DataStoreMapElement {
 
     get(options: IRequestOptions): IDataRecord[] {
         if (this.has(options)) {
-            let output: IDataRecord[] = [];
+            let output: IDataRecord[] = []
             for (let id in this.map.get(options.getUrl())) {
                 let record: IDataRecord = this.list.find((record: IDataRecord) => {
                     return record.getPrimary() === id
@@ -26,9 +26,9 @@ export default class DataStoreMapElement {
                     output.push(record)
                 }
             }
-            return output;
+            return output
         }
-        return [];
+        return []
     }
 
     remove(options: IRequestOptions): void {
@@ -38,10 +38,10 @@ export default class DataStoreMapElement {
                     this.map.get(key).splice(
                         this.map.get(key).indexOf(
                             options.record.getPrimary()
-                        ), 1);
+                        ), 1)
                 }
             }
-            let index: number = -1;
+            let index: number = -1
             while (true) {
                 index = this.findRecordIndex(options.record)
                 if (index === -1) {
@@ -55,20 +55,20 @@ export default class DataStoreMapElement {
 
     set(options: IRequestOptions): void {
         if (this.has(options)) {
-            this.map.get(options.getUrl()).push(options.record.getPrimary());
+            this.map.get(options.getUrl()).push(options.record.getPrimary())
         } else {
-            this.map.set(options.getUrl(), [options.record.getPrimary()]);
+            this.map.set(options.getUrl(), [options.record.getPrimary()])
         }
         this.link(options)
     }
 
     setAll(options: IRequestOptions, records: IDataRecord[]): void {
         if (this.has(options)) {
-            this.map.set(options.getUrl(), []);
+            this.map.set(options.getUrl(), [])
         }
         records.forEach((record: IDataRecord) => {
             options.record = record
-            this.set(options);
+            this.set(options)
         })
     }
 

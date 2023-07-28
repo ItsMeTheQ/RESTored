@@ -1,20 +1,20 @@
 export default interface ITransformer<T> {
-    hasChanged: boolean;
+    hasChanged: boolean
 
-    name(): string;
+    name(): string
 
-    serialize(): unknown; // value has to be JSON serializable
-    deserialize(input: unknown): void;
+    serialize(): unknown // value has to be JSON serializable
+    deserialize(input: unknown): void
 
-    isPrimary(): boolean;
-    setPrimary(): ITransformer<T>;
+    isPrimary(): boolean
+    setPrimary(): ITransformer<T>
 
-    getDefault(): T;
-    setDefault(value: T): ITransformer<T>;
+    getDefault(): T
+    setDefault(value: T): ITransformer<T>
 
-    getValue(): T;
-    setValue(value: T): void;
+    getValue(): T
+    setValue(value: T): void
 
-    getOldValue(): unknown;
-    setOldValue(): void;
+    getOldValue(): unknown
+    setOldValue(): void
 }

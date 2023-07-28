@@ -1,12 +1,12 @@
-import IRequestOptions from "../interfaces/IRequestOptions";
-import IDataRecord from "../interfaces/IDataRecord";
-import IStore from "../interfaces/IStore";
-import DataStore from "./DataStore";
-import IDataRecordConstructor from "../interfaces/IDataRecordConstructor";
-import RequestOptions from "./RequestOptions";
-import IDataStore from "../interfaces/IDataStore";
-import NoPrimaryError from "../errors/NoPrimaryError";
-import DataRecordNotLinkedError from "../errors/DataRecordNotLinkedError";
+import IRequestOptions from "../interfaces/IRequestOptions"
+import IDataRecord from "../interfaces/IDataRecord"
+import IStore from "../interfaces/IStore"
+import DataStore from "./DataStore"
+import IDataRecordConstructor from "../interfaces/IDataRecordConstructor"
+import RequestOptions from "./RequestOptions"
+import IDataStore from "../interfaces/IDataStore"
+import NoPrimaryError from "../errors/NoPrimaryError"
+import DataRecordNotLinkedError from "../errors/DataRecordNotLinkedError"
 
 enum RequestMethods {
     GET = 'GET',
@@ -16,12 +16,12 @@ enum RequestMethods {
 }
 
 class NewBuilder {
-    private readonly store: IStore;
-    private recordClasses: Map<string, IDataRecordConstructor>;
+    private readonly store: IStore
+    private recordClasses: Map<string, IDataRecordConstructor>
 
     constructor(store: IStore, recordClasses: Map<string, IDataRecordConstructor>) {
-        this.store = store;
-        this.recordClasses = recordClasses;
+        this.store = store
+        this.recordClasses = recordClasses
     }
 
     record(recordType: string): IDataRecord {
@@ -29,7 +29,7 @@ class NewBuilder {
     }
 
     request(recordType: string): IRequestOptions {
-        const record: IDataRecord = new (this.recordClasses.get(recordType))(this.store);
+        const record: IDataRecord = new (this.recordClasses.get(recordType))(this.store)
         const requestOptions: IRequestOptions = new RequestOptions().setRecord(record)
         for (let key of Array.from(this.store.defaultHeaders.keys())) {
             requestOptions.addHeader(key, this.store.defaultHeaders.get(key))
@@ -40,16 +40,16 @@ class NewBuilder {
 
 
 export default class Store implements IStore {
-    private recordClasses: Map<string, IDataRecordConstructor> = new Map<string, IDataRecordConstructor>();
+    private recordClasses: Map<string, IDataRecordConstructor> = new Map<string, IDataRecordConstructor>()
 
-    public defaultHeaders: Map<string, string> = new Map<string, string>();
-    public records: IDataStore = new DataStore();
+    public defaultHeaders: Map<string, string> = new Map<string, string>()
+    public records: IDataStore = new DataStore()
 
     register(record: IDataRecordConstructor): Store {
-        const recordInstance: IDataRecord = new record(this);
-        this.records.register(recordInstance.recordType());
-        this.recordClasses.set(recordInstance.recordType(), record);
-        return this;
+        const recordInstance: IDataRecord = new record(this)
+        this.records.register(recordInstance.recordType())
+        this.recordClasses.set(recordInstance.recordType(), record)
+        return this
     }
 
     get new(): NewBuilder {
@@ -62,16 +62,16 @@ export default class Store implements IStore {
     }
 
     removeHeader(key: string): IStore {
-        this.defaultHeaders.delete(key);
-        return this;
+        this.defaultHeaders.delete(key)
+        return this
     }
 
     get(options: IRequestOptions): IDataRecord[] {
-        return this.records.get(options) as IDataRecord[];
+        return this.records.get(options) as IDataRecord[]
     }
 
     getSingle(options: IRequestOptions): IDataRecord {
-        const records: IDataRecord[] = this.records.get(options) as IDataRecord[];
+        const records: IDataRecord[] = this.records.get(options) as IDataRecord[]
         return records.length > 0 ? records[0] : undefined
     }
 
@@ -108,13 +108,13 @@ export default class Store implements IStore {
         if (output) {
             init['body'] = JSON.stringify(output)
         }
-        return await fetch(options.getUrlWithParams(), init);
+        return await fetch(options.getUrlWithParams(), init)
     }
 
     async find(options: IRequestOptions): Promise<Response> {
         options.setMultiple(false)
-        const response: Response = await this.request(options);
-        const dataset: { [key: string]: unknown } = await response.json();
+        const response: Response = await this.request(options)
+        const dataset: { [key: string]: unknown } = await response.json()
         const record: IDataRecord = this.new.record(options.record.recordType())
         record.deserialize(dataset)
         record.setIsNew(false)
@@ -124,8 +124,8 @@ export default class Store implements IStore {
 
     async findAll(options: IRequestOptions): Promise<Response> {
         options.setMultiple(true)
-        const response: Response = await this.request(options);
-        const datasets: [{ [key: string]: unknown }] = await response.json();
+        const response: Response = await this.request(options)
+        const datasets: [{ [key: string]: unknown }] = await response.json()
         const records: IDataRecord[] = []
         for (let dataset of datasets) {
             const record: IDataRecord = this.new.record(options.record.recordType())
@@ -139,8 +139,8 @@ export default class Store implements IStore {
 
     async create(options: IRequestOptions): Promise<Response> {
         options.setMultiple(true).setRequestMethod(RequestMethods.POST)
-        const response: Response = await this.request(options);
-        const dataset: { [key: string]: unknown } = await response.json();
+        const response: Response = await this.request(options)
+        const dataset: { [key: string]: unknown } = await response.json()
         const record: IDataRecord = options.record
         record.deserialize(dataset)
         record.setIsNew(false)
@@ -151,8 +151,8 @@ export default class Store implements IStore {
 
     async update(options: IRequestOptions): Promise<Response> {
         options.setMultiple(false).setRequestMethod(RequestMethods.PUT)
-        const response: Response = await this.request(options);
-        const dataset: { [key: string]: unknown } = await response.json();
+        const response: Response = await this.request(options)
+        const dataset: { [key: string]: unknown } = await response.json()
         const record: IDataRecord = options.record
         record.deserialize(dataset)
         record.setIsNew(false)
@@ -161,7 +161,7 @@ export default class Store implements IStore {
 
     async delete(options: IRequestOptions): Promise<Response> {
         options.setMultiple(false).setRequestMethod(RequestMethods.DELETE)
-        const response: Response = await this.request(options);
+        const response: Response = await this.request(options)
         this.records.remove(options)
         return response
     }

@@ -1,4 +1,4 @@
-import IDataRecord from "../interfaces/IDataRecord";
+import IDataRecord from "../interfaces/IDataRecord"
 
 export default class DataRecordNotRegistered extends Error {
     constructor(record: IDataRecord) {

@@ -1,4 +1,4 @@
-import ITransformer from "../interfaces/ITransformer";
+import ITransformer from "../interfaces/ITransformer"
 
 export default abstract class BaseTransformer<T> implements ITransformer<T> {
     public name(): string {
@@ -15,7 +15,7 @@ export default abstract class BaseTransformer<T> implements ITransformer<T> {
     }
 
     getDefault(): T {
-        return this.default;
+        return this.default
     }
 
     setDefault(value: T): BaseTransformer<T> {
@@ -35,7 +35,7 @@ export default abstract class BaseTransformer<T> implements ITransformer<T> {
     }
 
     getValue(): T {
-        return this.value;
+        return this.value
     }
 
     setValue(value: T): void {
@@ -43,7 +43,7 @@ export default abstract class BaseTransformer<T> implements ITransformer<T> {
     }
 
     getOldValue(): unknown {
-        return this.oldValue;
+        return this.oldValue
     }
 
     setOldValue(): void {
@@ -52,7 +52,7 @@ export default abstract class BaseTransformer<T> implements ITransformer<T> {
 
     // return value is the JSON serialized value
     serialize(): unknown {
-        return this.getValue();
+        return this.getValue()
     }
 
     // input value has to be valid JSON format

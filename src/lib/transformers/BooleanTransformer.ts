@@ -1,4 +1,4 @@
-import BaseTransformer from "./BaseTransformer";
+import BaseTransformer from "./BaseTransformer"
 
 export default class BooleanTransformer extends BaseTransformer<Boolean> {
     name(): string {
@@ -7,7 +7,7 @@ export default class BooleanTransformer extends BaseTransformer<Boolean> {
 
     // return value is the JSON serialized value
     serialize(): unknown {
-        return Boolean(this.getValue());
+        return Boolean(this.getValue())
     }
 
     // input value has to be valid JSON format

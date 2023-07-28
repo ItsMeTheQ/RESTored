@@ -1,14 +1,14 @@
-import IDataStore from "../interfaces/IDataStore";
-import IRequestOptions from "../interfaces/IRequestOptions";
-import IDataRecord from "../interfaces/IDataRecord";
-import DataStoreMapElement from "../classes/DataStoreMapElement";
-import DataRecordNotRegistered from "../errors/DataRecordNotRegistered";
+import IDataStore from "../interfaces/IDataStore"
+import IRequestOptions from "../interfaces/IRequestOptions"
+import IDataRecord from "../interfaces/IDataRecord"
+import DataStoreMapElement from "../classes/DataStoreMapElement"
+import DataRecordNotRegistered from "../errors/DataRecordNotRegistered"
 
 export default class DataStore implements IDataStore {
     data: Map<string, DataStoreMapElement> = new Map<string, DataStoreMapElement>()
 
     private has(options: IRequestOptions): boolean {
-        return this.data.has(options.record.recordType());
+        return this.data.has(options.record.recordType())
     }
 
     get(options: IRequestOptions): IDataRecord[] {
@@ -16,7 +16,7 @@ export default class DataStore implements IDataStore {
         if (!mapElement) {
             throw new DataRecordNotRegistered(options.record)
         }
-        return this.data.get(options.record.recordType()).get(options) as IDataRecord[];
+        return this.data.get(options.record.recordType()).get(options) as IDataRecord[]
     }
 
     remove(options: IRequestOptions): void {

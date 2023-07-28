@@ -1,27 +1,27 @@
-import IDataRecord from "../interfaces/IDataRecord";
+import IDataRecord from "../interfaces/IDataRecord"
 import "reflect-metadata"
-import IStore from "../interfaces/IStore";
-import IRequestOptions from "../interfaces/IRequestOptions";
-import {RequestMethods} from "./Store";
-import BaseTransformer from "../transformers/BaseTransformer";
-import NoPrimaryError from "../errors/NoPrimaryError";
-import ITransformer from "../interfaces/ITransformer";
+import IStore from "../interfaces/IStore"
+import IRequestOptions from "../interfaces/IRequestOptions"
+import {RequestMethods} from "./Store"
+import BaseTransformer from "../transformers/BaseTransformer"
+import NoPrimaryError from "../errors/NoPrimaryError"
+import ITransformer from "../interfaces/ITransformer"
 
-let counter: number = 0;
+let counter: number = 0
 
 export default abstract class DataRecord implements IDataRecord {
-    private uuId: number = counter++;
+    private uuId: number = counter++
 
     public uuid(): number {
-        return this.uuId;
+        return this.uuId
     }
 
     public getIsNew(): boolean {
-        return this.isNew;
+        return this.isNew
     }
 
     public setIsNew(isNew: boolean): void {
-        this.isNew = isNew;
+        this.isNew = isNew
     }
 
     public store: IStore
@@ -29,11 +29,11 @@ export default abstract class DataRecord implements IDataRecord {
     private isNew: boolean = true
 
     recordType() {
-        return 'basic';
+        return 'basic'
     }
 
     url(options: IRequestOptions) {
-        return 'baseUrl';
+        return 'baseUrl'
     }
 
     public get hasChanged(): boolean {
@@ -72,7 +72,7 @@ export default abstract class DataRecord implements IDataRecord {
                 break
             }
         }
-        return output;
+        return output
     }
 
     link(): void {
@@ -110,21 +110,21 @@ export default abstract class DataRecord implements IDataRecord {
         options = this.fillOptionsParameters(options)
             .setRequestMethod(RequestMethods.POST)
             .setMultiple(false)
-        return await this.store.create(options);
+        return await this.store.create(options)
     }
 
     async update(options?: IRequestOptions): Promise<Response> {
         options = this.fillOptionsParameters(options)
             .setRequestMethod(RequestMethods.PUT)
             .setMultiple(false)
-        return await this.store.update(options);
+        return await this.store.update(options)
     }
 
     async delete(options?: IRequestOptions): Promise<Response> {
         options = this.fillOptionsParameters(options)
             .setRequestMethod(RequestMethods.DELETE)
             .setMultiple(false)
-        return await this.store.delete(options);
+        return await this.store.delete(options)
     }
 
     async save(options?: IRequestOptions): Promise<Response> {

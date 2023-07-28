@@ -1,4 +1,4 @@
-import BaseTransformer from "./BaseTransformer";
+import BaseTransformer from "./BaseTransformer"
 
 export default class NumberTransformer extends BaseTransformer<number> {
     name(): string {
@@ -7,7 +7,7 @@ export default class NumberTransformer extends BaseTransformer<number> {
 
     // return value is the JSON serialized value
     serialize(): unknown {
-        return this.getValue() ? Number(this.getValue()) : null;
+        return this.getValue() ? Number(this.getValue()) : null
     }
 
     // input value has to be valid JSON format
