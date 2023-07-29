@@ -18,7 +18,7 @@ export default class DataStoreMapElement {
     get(options: IRequestOptions): IDataRecord[] {
         if (this.has(options)) {
             let output: IDataRecord[] = []
-            for (let id in this.map.get(options.getUrl())) {
+            for (let id of (this.map.get(options.getUrl()))) {
                 let record: IDataRecord = this.list.find((record: IDataRecord) => {
                     return record.getPrimary() === id
                 })
@@ -32,24 +32,21 @@ export default class DataStoreMapElement {
     }
 
     remove(options: IRequestOptions): void {
-        if (this.has(options)) {
-            for (let key in this.map.keys()) {
-                while (this.map.get(key).includes(options.record.getPrimary())) {
-                    this.map.get(key).splice(
-                        this.map.get(key).indexOf(
-                            options.record.getPrimary()
-                        ), 1)
-                }
+        for (let key of Array.from(this.map.keys())) {
+            while (this.map.get(key).includes(options.record.getPrimary())) {
+                this.map.get(key).splice(
+                    this.map.get(key).indexOf(
+                        options.record.getPrimary()
+                    ), 1)
             }
-            let index: number = -1
-            while (true) {
-                index = this.findRecordIndex(options.record)
-                if (index === -1) {
-                    break
-                }
-                this.list.splice(index, 1)
-
+        }
+        let index: number = -1
+        while (true) {
+            index = this.findRecordIndex(options.record)
+            if (index === -1) {
+                break
             }
+            this.list.splice(index, 1)
         }
     }
 

@@ -68,7 +68,7 @@ export default abstract class DataRecord implements IDataRecord {
         for (let property of properties) {
             if (this[property].isPrimary() === true
             ) {
-                output = String(this[property].serialize()).toString()
+                output = String([null, undefined].includes(this[property].getValue()) ? '' : this[property].serialize()).toString()
                 break
             }
         }

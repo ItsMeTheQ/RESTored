@@ -20,19 +20,19 @@ export default class DataStore implements IDataStore {
     }
 
     remove(options: IRequestOptions): void {
-        if (this.data.has(options.record.recordType())) {
+        if (this.has(options)) {
             this.data.get(options.record.recordType()).remove(options)
         }
     }
 
     set(options: IRequestOptions): void {
-        if (this.data.has(options.record.recordType())) {
+        if (this.has(options)) {
             this.data.get(options.record.recordType()).set(options)
         }
     }
 
     setAll(options: IRequestOptions, records: IDataRecord[]): void {
-        if (this.data.has(options.record.recordType())) {
+        if (this.has(options)) {
             this.data.get(options.record.recordType()).setAll(options, records)
         }
     }
@@ -50,6 +50,7 @@ export default class DataStore implements IDataStore {
     }
 
     addToStoreMapping(options: IRequestOptions, position: number): void {
+        // TODO: dont add if already included
         if (position <= 0) {
             position = 0
         }
@@ -57,10 +58,14 @@ export default class DataStore implements IDataStore {
         if (position >= maxLength) {
             position = maxLength
         }
-        this.data.get(
+        const records: string[] = this.data.get(
             options.record.recordType()
         ).map.get(
             options.getUrl()
-        ).splice(position, 0, options.record.getPrimary())
+        )
+        if (records.includes(options.record.getPrimary())) {
+            return
+        }
+        records.splice(position, 0, options.record.getPrimary())
     }
 }

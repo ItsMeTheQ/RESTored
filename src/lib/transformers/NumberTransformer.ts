@@ -7,7 +7,7 @@ export default class NumberTransformer extends BaseTransformer<number> {
 
     // return value is the JSON serialized value
     serialize(): unknown {
-        return this.getValue() ? Number(this.getValue()) : null
+        return typeof this.getValue() === 'number' ? Number(this.getValue()) : null
     }
 
     // input value has to be valid JSON format
