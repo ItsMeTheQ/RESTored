@@ -68,10 +68,12 @@ export default class Store implements IStore {
     }
 
     get(options: IRequestOptions): IDataRecord[] {
+        options.setMultiple(true)
         return this.records.get(options) as IDataRecord[]
     }
 
     getSingle(options: IRequestOptions): IDataRecord {
+        options.setMultiple(false)
         const records: IDataRecord[] = this.records.get(options) as IDataRecord[]
         return records.length > 0 ? records[0] : undefined
     }
@@ -172,6 +174,7 @@ export default class Store implements IStore {
             const record: IDataRecord = options.record
             record.deserialize(dataset)
             record.setIsNew(false)
+            this.records.set(options)
             response.setRecord(this.getSingle(options))
         }
         return response

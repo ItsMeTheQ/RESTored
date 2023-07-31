@@ -79,7 +79,8 @@ export default class RequestOptions implements IRequestOptions {
     }
 
     private getQueryParams(): string {
-        let params: string = '?'
+        let params: string = ''
+        if (this.queries.size > 0) params = '?'
         this.queries.forEach((value: string, key: string) => {
             params += `${key}=${value}&`
         })
