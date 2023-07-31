@@ -3,6 +3,7 @@ import IRequestOptions from "../interfaces/IRequestOptions"
 import Store from "../classes/Store"
 import {NewBuilder} from "../classes/Store"
 import IDataStore from "./IDataStore"
+import DataResponse from "../classes/DataResponse";
 
 
 export default interface IStore {
@@ -21,10 +22,10 @@ export default interface IStore {
     link(options: IRequestOptions): void
     unlink(record: IDataRecord): void
 
-    find(options: IRequestOptions): Promise<Response>
-    findAll(options: IRequestOptions): Promise<Response>
+    find(options: IRequestOptions): Promise<DataResponse>
+    findAll(options: IRequestOptions): Promise<DataResponse>
 
-    create(options: IRequestOptions): Promise<Response>
-    update(options: IRequestOptions): Promise<Response>
-    delete(options: IRequestOptions): Promise<Response>
+    create(options: IRequestOptions): Promise<DataResponse>
+    update(options: IRequestOptions): Promise<DataResponse>
+    delete(options: IRequestOptions): Promise<DataResponse>
 }

@@ -7,6 +7,7 @@ import RequestOptions from "./RequestOptions"
 import IDataStore from "../interfaces/IDataStore"
 import NoPrimaryError from "../errors/NoPrimaryError"
 import DataRecordNotLinkedError from "../errors/DataRecordNotLinkedError"
+import DataResponse from "./DataResponse";
 
 enum RequestMethods {
     GET = 'GET',
@@ -88,7 +89,7 @@ export default class Store implements IStore {
             return element.getUuid() === record.getUuid()
         })
         const index: number = allRecords.findIndex((element: IDataRecord) => {
-          return element.getUuid() === record.getUuid()
+            return element.getUuid() === record.getUuid()
         })
         if (elements.length === 0) {
             throw new DataRecordNotLinkedError(record)
@@ -111,58 +112,77 @@ export default class Store implements IStore {
         return await fetch(options.getUrlWithParams(), init)
     }
 
-    async find(options: IRequestOptions): Promise<Response> {
-        options.setMultiple(false)
-        const response: Response = await this.request(options)
-        const dataset: { [key: string]: unknown } = await response.json()
-        const record: IDataRecord = this.new.record(options.record.recordType())
-        record.deserialize(dataset)
-        record.setIsNew(false)
-        this.records.set(options)
-        return response
+    private createDataResponse(response: Response): DataResponse {
+        return new DataResponse(response.body, response)
     }
 
-    async findAll(options: IRequestOptions): Promise<Response> {
-        options.setMultiple(true)
-        const response: Response = await this.request(options)
-        const datasets: [{ [key: string]: unknown }] = await response.json()
-        const records: IDataRecord[] = []
-        for (let dataset of datasets) {
+    async find(options: IRequestOptions): Promise<DataResponse> {
+        options.setMultiple(false)
+        const response: DataResponse = this.createDataResponse(await this.request(options))
+        if (response.ok) {
+            const dataset: { [key: string]: unknown } = await response.json()
             const record: IDataRecord = this.new.record(options.record.recordType())
             record.deserialize(dataset)
             record.setIsNew(false)
-            records.push(record)
+            options.setRecord(record)
+            this.records.set(options)
+            response.setRecord(this.getSingle(options))
         }
-        this.records.setAll(options, records)
         return response
     }
 
-    async create(options: IRequestOptions): Promise<Response> {
+    async findAll(options: IRequestOptions): Promise<DataResponse> {
+        options.setMultiple(true)
+        const response: DataResponse = this.createDataResponse(await this.request(options))
+        if (response.ok) {
+            const datasets: [{ [key: string]: unknown }] = await response.json()
+            const records: IDataRecord[] = []
+            for (let dataset of datasets) {
+                const record: IDataRecord = this.new.record(options.record.recordType())
+                record.deserialize(dataset)
+                record.setIsNew(false)
+                records.push(record)
+            }
+            this.records.setAll(options, records)
+            response.setRecords(this.get(options))
+        }
+        return response
+    }
+
+    async create(options: IRequestOptions): Promise<DataResponse> {
         options.setMultiple(true).setRequestMethod(RequestMethods.POST)
-        const response: Response = await this.request(options)
-        const dataset: { [key: string]: unknown } = await response.json()
-        const record: IDataRecord = options.record
-        record.deserialize(dataset)
-        record.setIsNew(false)
-        this.records.set(options)
-        record.link()
+        const response: DataResponse = this.createDataResponse(await this.request(options))
+        if (response.ok) {
+            const dataset: { [key: string]: unknown } = await response.json()
+            const record: IDataRecord = options.record
+            record.deserialize(dataset)
+            record.setIsNew(false)
+            this.records.set(options)
+            record.link()
+            response.setRecord(this.getSingle(options))
+        }
         return response
     }
 
-    async update(options: IRequestOptions): Promise<Response> {
+    async update(options: IRequestOptions): Promise<DataResponse> {
         options.setMultiple(false).setRequestMethod(RequestMethods.PUT)
-        const response: Response = await this.request(options)
-        const dataset: { [key: string]: unknown } = await response.json()
-        const record: IDataRecord = options.record
-        record.deserialize(dataset)
-        record.setIsNew(false)
+        const response: DataResponse = this.createDataResponse(await this.request(options))
+        if (response.ok) {
+            const dataset: { [key: string]: unknown } = await response.json()
+            const record: IDataRecord = options.record
+            record.deserialize(dataset)
+            record.setIsNew(false)
+            response.setRecord(this.getSingle(options))
+        }
         return response
     }
 
-    async delete(options: IRequestOptions): Promise<Response> {
+    async delete(options: IRequestOptions): Promise<DataResponse> {
         options.setMultiple(false).setRequestMethod(RequestMethods.DELETE)
-        const response: Response = await this.request(options)
-        this.records.remove(options)
+        const response: DataResponse = this.createDataResponse(await this.request(options))
+        if (response.ok) {
+            this.records.remove(options)
+        }
         return response
     }
 }
