@@ -1,5 +1,6 @@
 import IRequestOptions from "../interfaces/IRequestOptions"
 import IStore from "./IStore"
+import DataResponse from "../classes/DataResponse";
 
 export default interface IDataRecord {
     store: IStore
@@ -21,11 +22,11 @@ export default interface IDataRecord {
 
     toString() : string
 
-    create(options: IRequestOptions): Promise<Response>
-    update(options: IRequestOptions): Promise<Response>
-    delete(options: IRequestOptions): Promise<Response>
+    create(options: IRequestOptions): Promise<DataResponse>
+    update(options: IRequestOptions): Promise<DataResponse>
+    delete(options: IRequestOptions): Promise<DataResponse>
 
-    save(options: IRequestOptions): Promise<Response>
+    save(options: IRequestOptions): Promise<DataResponse>
 
     addToStoreMapping(options: IRequestOptions, position: number): void
 }

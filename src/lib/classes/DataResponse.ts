@@ -1,11 +1,35 @@
 import IDataRecord from "../interfaces/IDataRecord";
 
-export default class DataResponse extends Response{
+export default class DataResponse{
     private $record: IDataRecord = null
     private $records: IDataRecord[] = []
+    private readonly $response: Response = null
 
-    constructor(body?: BodyInit, response?: ResponseInit) {
-        super(body, response)
+    constructor(response: Response) {
+        this.$response = response
+    }
+
+    public get response(): Response {
+        return this.$response
+    }
+
+    public get headers(): Headers {
+        return this.$response.headers
+    }
+    public get ok(): boolean {
+        return this.$response.ok
+    }
+    public get status(): number {
+        return this.$response.status
+    }
+    public get statusText(): string {
+        return this.$response.statusText
+    }
+    public get type(): ResponseType {
+        return this.$response.type
+    }
+    public get url(): string {
+        return this.$response.url
     }
 
     public get record(): IDataRecord {

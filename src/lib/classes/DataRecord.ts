@@ -6,6 +6,7 @@ import {RequestMethods} from "./Store"
 import BaseTransformer from "../transformers/BaseTransformer"
 import NoPrimaryError from "../errors/NoPrimaryError"
 import ITransformer from "../interfaces/ITransformer"
+import DataResponse from "./DataResponse";
 
 let counter: number = 0
 
@@ -106,28 +107,28 @@ export default abstract class DataRecord implements IDataRecord {
         return options
     }
 
-    async create(options?: IRequestOptions): Promise<Response> {
+    async create(options?: IRequestOptions): Promise<DataResponse> {
         options = this.fillOptionsParameters(options)
             .setRequestMethod(RequestMethods.POST)
             .setMultiple(false)
         return await this.store.create(options)
     }
 
-    async update(options?: IRequestOptions): Promise<Response> {
+    async update(options?: IRequestOptions): Promise<DataResponse> {
         options = this.fillOptionsParameters(options)
             .setRequestMethod(RequestMethods.PUT)
             .setMultiple(false)
         return await this.store.update(options)
     }
 
-    async delete(options?: IRequestOptions): Promise<Response> {
+    async delete(options?: IRequestOptions): Promise<DataResponse> {
         options = this.fillOptionsParameters(options)
             .setRequestMethod(RequestMethods.DELETE)
             .setMultiple(false)
         return await this.store.delete(options)
     }
 
-    async save(options?: IRequestOptions): Promise<Response> {
+    async save(options?: IRequestOptions): Promise<DataResponse> {
         options = this.fillOptionsParameters(options)
         if (this.hasChanged && !this.getIsNew()) {
             return await this.update(options)

@@ -113,14 +113,14 @@ export default class Store implements IStore {
     }
 
     private createDataResponse(response: Response): DataResponse {
-        return new DataResponse(response.body, response)
+        return new DataResponse(response)
     }
 
     async find(options: IRequestOptions): Promise<DataResponse> {
         options.setMultiple(false)
         const response: DataResponse = this.createDataResponse(await this.request(options))
         if (response.ok) {
-            const dataset: { [key: string]: unknown } = await response.json()
+            const dataset: { [key: string]: unknown } = await response.response.json()
             const record: IDataRecord = this.new.record(options.record.recordType())
             record.deserialize(dataset)
             record.setIsNew(false)
@@ -135,7 +135,7 @@ export default class Store implements IStore {
         options.setMultiple(true)
         const response: DataResponse = this.createDataResponse(await this.request(options))
         if (response.ok) {
-            const datasets: [{ [key: string]: unknown }] = await response.json()
+            const datasets: [{ [key: string]: unknown }] = await response.response.json()
             const records: IDataRecord[] = []
             for (let dataset of datasets) {
                 const record: IDataRecord = this.new.record(options.record.recordType())
@@ -153,7 +153,7 @@ export default class Store implements IStore {
         options.setMultiple(true).setRequestMethod(RequestMethods.POST)
         const response: DataResponse = this.createDataResponse(await this.request(options))
         if (response.ok) {
-            const dataset: { [key: string]: unknown } = await response.json()
+            const dataset: { [key: string]: unknown } = await response.response.json()
             const record: IDataRecord = options.record
             record.deserialize(dataset)
             record.setIsNew(false)
@@ -168,7 +168,7 @@ export default class Store implements IStore {
         options.setMultiple(false).setRequestMethod(RequestMethods.PUT)
         const response: DataResponse = this.createDataResponse(await this.request(options))
         if (response.ok) {
-            const dataset: { [key: string]: unknown } = await response.json()
+            const dataset: { [key: string]: unknown } = await response.response.json()
             const record: IDataRecord = options.record
             record.deserialize(dataset)
             record.setIsNew(false)
