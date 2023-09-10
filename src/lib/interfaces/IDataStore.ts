@@ -1,5 +1,5 @@
-import IRequestOptions from "../interfaces/IRequestOptions"
-import IDataRecord from "../interfaces/IDataRecord"
+import type IRequestOptions from "../interfaces/IRequestOptions"
+import type IDataRecord from "../interfaces/IDataRecord"
 
 export default interface IDataStore {
     get(options: IRequestOptions): IDataRecord[]

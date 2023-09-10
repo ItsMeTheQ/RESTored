@@ -1,11 +1,11 @@
-import IDataRecord from "../interfaces/IDataRecord"
+import type IDataRecord from "../interfaces/IDataRecord"
 import "reflect-metadata"
-import IStore from "../interfaces/IStore"
-import IRequestOptions from "../interfaces/IRequestOptions"
+import type IStore from "../interfaces/IStore"
+import type IRequestOptions from "../interfaces/IRequestOptions"
 import {RequestMethods} from "./Store"
 import BaseTransformer from "../transformers/BaseTransformer"
 import NoPrimaryError from "../errors/NoPrimaryError"
-import ITransformer from "../interfaces/ITransformer"
+import type ITransformer from "../interfaces/ITransformer"
 import DataResponse from "./DataResponse";
 
 let counter: number = 0
@@ -41,7 +41,7 @@ export default abstract class DataRecord implements IDataRecord {
         let output: boolean = false
         const properties = this.getOwnDataFields()
         for (let property of properties) {
-            if (this[property].hasChanged) {
+            if (this[property as keyof DataRecord].hasChanged) {
                 output = true
                 break
             }
@@ -55,7 +55,7 @@ export default abstract class DataRecord implements IDataRecord {
 
     private getOwnDataFields(): string[] {
         return Object.getOwnPropertyNames(this).filter((property: string) => {
-            return property.startsWith('$') && this[property] instanceof BaseTransformer
+            return property.startsWith('$') && this[property as keyof DataRecord] instanceof BaseTransformer
         })
     }
 
@@ -67,7 +67,8 @@ export default abstract class DataRecord implements IDataRecord {
         let output: string = ''
         const properties = this.getOwnDataFields()
         for (let property of properties) {
-            if (this[property].isPrimary() === true
+            console.log(this[property as keyof DataRecord])
+            if (this[property as keyof DataRecord].isPrimary() === true
             ) {
                 output = String([null, undefined].includes(this[property].getValue()) ? '' : this[property].serialize()).toString()
                 break

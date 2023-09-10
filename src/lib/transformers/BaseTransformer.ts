@@ -1,4 +1,4 @@
-import ITransformer from "../interfaces/ITransformer"
+import type ITransformer from "../interfaces/ITransformer"
 
 export default abstract class BaseTransformer<T> implements ITransformer<T> {
     public name(): string {

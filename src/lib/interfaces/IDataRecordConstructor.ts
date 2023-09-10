@@ -1,5 +1,5 @@
-import IDataRecord from "./IDataRecord"
-import IStore from "./IStore"
+import type IDataRecord from "./IDataRecord"
+import type IStore from "./IStore"
 
 export default interface IDataRecordConstructor {
     new (store: IStore): IDataRecord

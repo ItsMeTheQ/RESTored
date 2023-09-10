@@ -1,4 +1,4 @@
-import IDataRecord from "./IDataRecord"
+import type IDataRecord from "./IDataRecord"
 import {RequestMethods} from "../classes/Store"
 
 export default interface IRequestOptions {

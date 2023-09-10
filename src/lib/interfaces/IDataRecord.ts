@@ -1,5 +1,5 @@
-import IRequestOptions from "../interfaces/IRequestOptions"
-import IStore from "./IStore"
+import type IRequestOptions from "../interfaces/IRequestOptions"
+import type IStore from "./IStore"
 import DataResponse from "../classes/DataResponse";
 
 export default interface IDataRecord {

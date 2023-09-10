@@ -1,4 +1,4 @@
-import IDataRecord from "../interfaces/IDataRecord"
+import type IDataRecord from "../interfaces/IDataRecord"
 
 export default class DataRecordNotLinkedError extends Error {
     constructor(record: IDataRecord) {

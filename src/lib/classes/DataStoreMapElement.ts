@@ -1,5 +1,5 @@
-import IDataRecord from "../interfaces/IDataRecord"
-import IRequestOptions from "../interfaces/IRequestOptions"
+import type IDataRecord from "../interfaces/IDataRecord"
+import type IRequestOptions from "../interfaces/IRequestOptions"
 
 export default class DataStoreMapElement {
     map: Map<string, string[]> = new Map<string, string[]>()

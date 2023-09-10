@@ -1,8 +1,8 @@
-import IDataRecord from "../interfaces/IDataRecord"
-import IRequestOptions from "../interfaces/IRequestOptions"
+import type IDataRecord from "../interfaces/IDataRecord"
+import type IRequestOptions from "../interfaces/IRequestOptions"
 import Store from "../classes/Store"
 import {NewBuilder} from "../classes/Store"
-import IDataStore from "./IDataStore"
+import type IDataStore from "./IDataStore"
 import DataResponse from "../classes/DataResponse";
 
 

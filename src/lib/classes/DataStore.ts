@@ -1,6 +1,6 @@
-import IDataStore from "../interfaces/IDataStore"
-import IRequestOptions from "../interfaces/IRequestOptions"
-import IDataRecord from "../interfaces/IDataRecord"
+import type IDataStore from "../interfaces/IDataStore"
+import type IRequestOptions from "../interfaces/IRequestOptions"
+import type IDataRecord from "../interfaces/IDataRecord"
 import DataStoreMapElement from "../classes/DataStoreMapElement"
 import DataRecordNotRegistered from "../errors/DataRecordNotRegistered"
 
