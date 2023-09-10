@@ -119,7 +119,7 @@ export default class Store implements IStore {
     }
 
     async find(options: IRequestOptions): Promise<DataResponse> {
-        options.setMultiple(false)
+        options.setMultiple(false).setRequestMethod(RequestMethods.GET)
         const response: DataResponse = this.createDataResponse(await this.request(options))
         if (response.ok) {
             const dataset: { [key: string]: unknown } = await response.response.json()
@@ -134,7 +134,7 @@ export default class Store implements IStore {
     }
 
     async findAll(options: IRequestOptions): Promise<DataResponse> {
-        options.setMultiple(true)
+        options.setMultiple(true).setRequestMethod(RequestMethods.GET)
         const response: DataResponse = this.createDataResponse(await this.request(options))
         if (response.ok) {
             const datasets: [{ [key: string]: unknown }] = await response.response.json()

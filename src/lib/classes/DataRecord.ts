@@ -67,7 +67,6 @@ export default abstract class DataRecord implements IDataRecord {
         let output: string = ''
         const properties = this.getOwnDataFields()
         for (let property of properties) {
-            console.log(this[property as keyof DataRecord])
             if (this[property as keyof DataRecord].isPrimary() === true
             ) {
                 output = String([null, undefined].includes(this[property].getValue()) ? '' : this[property].serialize()).toString()

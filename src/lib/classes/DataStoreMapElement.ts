@@ -51,8 +51,12 @@ export default class DataStoreMapElement {
     }
 
     set(options: IRequestOptions): void {
+        // TODO: Replace if inserted already
         if (this.has(options)) {
-            this.map.get(options.getUrl()).push(options.record.getPrimary())
+            const index: number = this.map.get(options.getUrl()).findIndex(e => e === options.record.getPrimary())
+            if (index === -1) {
+                this.map.get(options.getUrl()).push(options.record.getPrimary())
+            }
         } else {
             this.map.set(options.getUrl(), [options.record.getPrimary()])
         }
